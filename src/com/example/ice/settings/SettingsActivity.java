@@ -43,12 +43,12 @@ public class SettingsActivity extends Activity implements OnClickListener{
     ArrayAdapter aa;
     ArrayAdapter bb;
     
-	String[] languages_itm = {  "English","Polish",};
-	String[] languages_itm1 = {  "Polski","Angielski",};
-	String[] isVis_itm = { "Yes", "No",};
-	String[] isVis_itm1 = { "Nie","Tak", };
-	String[] isVis_itm11 = { "No","Yes", };
-	String[] isVis_itm12 = { "Tak","Nie", };
+	String[] languages_itmE1 = {  "English","Polish",};
+	String[] languages_itmP2 = {  "Polski","Angielski",};
+	String[] isVis_itmE1 = { "Yes", "No",};
+	String[] isVis_itmP2 = { "Nie","Tak", };
+	String[] isVis_itmE2 = { "No","Yes", };
+	String[] isVis_itmP1 = { "Tak","Nie", };
 	
 
 	@Override
@@ -85,16 +85,16 @@ public class SettingsActivity extends Activity implements OnClickListener{
 
 			public void onItemSelected(AdapterView<?> parent, View v, int position,
 					long id) {
-				if(languages.equalsIgnoreCase("Polish") || languages.equalsIgnoreCase("Polski") ){
-			String selection1 = new String(languages_itm1[position]);
-				if(selection1.equalsIgnoreCase("English") || selection1.equalsIgnoreCase("Angielski") ){
+				if(languages.equalsIgnoreCase("Polish")){
+			String selection1 = new String(languages_itmP2[position]);
+				if(selection1.equalsIgnoreCase("Angielski") ){
 					languages = "English";
 				}
-				else if(selection1.equalsIgnoreCase("Polish")  || languages.equalsIgnoreCase("Polski")){
+				else if(languages.equalsIgnoreCase("Polski")){
 					languages = "Polish";
 				}}
 				else{
-					String selection1 = new String(languages_itm[position]);
+					String selection1 = new String(languages_itmE1[position]);
 					if(selection1.equalsIgnoreCase("English")){
 						languages = "English";
 					}
@@ -113,26 +113,59 @@ public class SettingsActivity extends Activity implements OnClickListener{
 
 			public void onItemSelected(AdapterView<?> parent, View v, int position,
 					long id) {
-				if(isvis.equalsIgnoreCase("No")){
-					String selection2 = new String(isVis_itm11[position]);
-					String selection22 = new String(isVis_itm1[position]);
-					if(selection2.equals("No") ||selection22.equals("Nie") ){
-						isvis = "No";
+					String selectionE1 = new String(isVis_itmE1[position]);
+					String selectionE2 = new String(isVis_itmE2[position]);
+					String selectionP1 = new String(isVis_itmP1[position]);
+					String selectionP2 = new String(isVis_itmP2[position]);
+					
+					if(languages.equalsIgnoreCase("Polish")){
+						
+						if(isvis.equalsIgnoreCase("No")){
+							
+							if(selectionP2.equals("Nie") ){
+								isvis = "No";
+							}
+							else {
+								isvis = "Yes";
+							}
+						}
+						
+						else{
+							
+							if(selectionP1.equals("Nie") ){
+								isvis = "No";
+							}
+							else {
+								isvis = "Yes";
+							}
+							
+						}
+						
+						
 					}
-					else if(selection2.equals("Yes") ||selection2.equals("Tak") ){
-						isvis = "Yes";
+					
+					else {
+						if(isvis.equalsIgnoreCase("No")){
+							
+							if(selectionE2.equals("No") ){
+								isvis = "No";
+							}
+							else {
+								isvis = "Yes";
+							}
+						}
+						else{
+							if(selectionE1.equals("No") ){
+								isvis = "No";
+							}
+							else {
+								isvis = "Yes";
+							}
+						}
+
 					}
-				}
-				else if (isvis.equalsIgnoreCase("Yes")){
-					String selection2 = new String(isVis_itm[position]);
-					String selection22 = new String(isVis_itm1[position]);
-					if(selection2.equals("No")||selection22.equals("Nie") ){
-						isvis = "No";
-					}
-					else if(selection2.equals("Yes")||selection22.equals("Tak")){
-						isvis = "Yes";
-					}
-				}
+					
+
 
 		}
 
@@ -141,31 +174,25 @@ public class SettingsActivity extends Activity implements OnClickListener{
 			
 		}
 		});
-		if(languages.equalsIgnoreCase("Polish")||languages.equalsIgnoreCase("Polski")){
-			aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item, languages_itm1);
+		if(languages.equalsIgnoreCase("Polish")){
+			aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item, languages_itmP2);
 			if (isvis.equalsIgnoreCase("No")){ 
-				 bb = new ArrayAdapter(this,android.R.layout.simple_spinner_item, isVis_itm1);
+				 bb = new ArrayAdapter(this,android.R.layout.simple_spinner_item, isVis_itmP2);
 			}
 			else{
-				bb = new ArrayAdapter(this,android.R.layout.simple_spinner_item, isVis_itm12);
+				bb = new ArrayAdapter(this,android.R.layout.simple_spinner_item, isVis_itmP1);
 			}
 			}
 		else{
 			
-			aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item, languages_itm);
+			aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item, languages_itmE1);
 			if (isvis.equalsIgnoreCase("No")){ 
-				 bb = new ArrayAdapter(this,android.R.layout.simple_spinner_item, isVis_itm11);
+				 bb = new ArrayAdapter(this,android.R.layout.simple_spinner_item, isVis_itmE2);
 			}
 			else{
-				bb = new ArrayAdapter(this,android.R.layout.simple_spinner_item, isVis_itm);
+				bb = new ArrayAdapter(this,android.R.layout.simple_spinner_item, isVis_itmE1);
 			}
 		}
-		
-
-//		else if (isvis.equalsIgnoreCase("No") && languages.equalsIgnoreCase("Polish")){
-//			 bb = new ArrayAdapter(this,android.R.layout.simple_spinner_item, isVis_itm1);
-//		}
-
 		aa.setDropDownViewResource(
 		android.R.layout.simple_spinner_dropdown_item);
 		spin.setAdapter(aa); 
