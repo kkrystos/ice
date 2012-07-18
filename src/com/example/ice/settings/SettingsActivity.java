@@ -40,9 +40,16 @@ public class SettingsActivity extends Activity implements OnClickListener{
 	private String sos_nr;
     public static String contactName = "";
     private  String phoneNrPick = "";
+    ArrayAdapter aa;
+    ArrayAdapter bb;
     
 	String[] languages_itm = {  "English","Polish",};
-	String[] isVis_itm = { "No", "Yes",};
+	String[] languages_itm1 = {  "Polski","Angielski",};
+	String[] isVis_itm = { "Yes", "No",};
+	String[] isVis_itm1 = { "Nie","Tak", };
+	String[] isVis_itm11 = { "No","Yes", };
+	String[] isVis_itm12 = { "Tak","Nie", };
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,13 +85,23 @@ public class SettingsActivity extends Activity implements OnClickListener{
 
 			public void onItemSelected(AdapterView<?> parent, View v, int position,
 					long id) {
-			String selection1 = new String(languages_itm[position]);
-				if(selection1.equalsIgnoreCase("English")){
+				if(languages.equalsIgnoreCase("Polish") || languages.equalsIgnoreCase("Polski") ){
+			String selection1 = new String(languages_itm1[position]);
+				if(selection1.equalsIgnoreCase("English") || selection1.equalsIgnoreCase("Angielski") ){
 					languages = "English";
 				}
-				else if(selection1.equalsIgnoreCase("Polish")){
+				else if(selection1.equalsIgnoreCase("Polish")  || languages.equalsIgnoreCase("Polski")){
 					languages = "Polish";
-				}
+				}}
+				else{
+					String selection1 = new String(languages_itm[position]);
+					if(selection1.equalsIgnoreCase("English")){
+						languages = "English";
+					}
+					else if(selection1.equalsIgnoreCase("Polish")){
+						languages = "Polish";
+					}}
+				
 		}
 
 		public void onNothingSelected(AdapterView<?> arg0) {
@@ -96,14 +113,27 @@ public class SettingsActivity extends Activity implements OnClickListener{
 
 			public void onItemSelected(AdapterView<?> parent, View v, int position,
 					long id) {
-			String selection2 = new String(isVis_itm[position]);
+				if(isvis.equalsIgnoreCase("No")){
+					String selection2 = new String(isVis_itm11[position]);
+					String selection22 = new String(isVis_itm1[position]);
+					if(selection2.equals("No") ||selection22.equals("Nie") ){
+						isvis = "No";
+					}
+					else if(selection2.equals("Yes") ||selection2.equals("Tak") ){
+						isvis = "Yes";
+					}
+				}
+				else if (isvis.equalsIgnoreCase("Yes")){
+					String selection2 = new String(isVis_itm[position]);
+					String selection22 = new String(isVis_itm1[position]);
+					if(selection2.equals("No")||selection22.equals("Nie") ){
+						isvis = "No";
+					}
+					else if(selection2.equals("Yes")||selection22.equals("Tak")){
+						isvis = "Yes";
+					}
+				}
 
-				if(selection2.equals("No")){
-					isvis = "No";
-				}
-				else if(selection2.equals("Yes")){
-					isvis = "Yes";
-				}
 		}
 
 		public void onNothingSelected(AdapterView<?> arg0) {
@@ -111,8 +141,31 @@ public class SettingsActivity extends Activity implements OnClickListener{
 			
 		}
 		});
-		ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item, languages_itm);
-		ArrayAdapter bb = new ArrayAdapter(this,android.R.layout.simple_spinner_item, isVis_itm);
+		if(languages.equalsIgnoreCase("Polish")||languages.equalsIgnoreCase("Polski")){
+			aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item, languages_itm1);
+			if (isvis.equalsIgnoreCase("No")){ 
+				 bb = new ArrayAdapter(this,android.R.layout.simple_spinner_item, isVis_itm1);
+			}
+			else{
+				bb = new ArrayAdapter(this,android.R.layout.simple_spinner_item, isVis_itm12);
+			}
+			}
+		else{
+			
+			aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item, languages_itm);
+			if (isvis.equalsIgnoreCase("No")){ 
+				 bb = new ArrayAdapter(this,android.R.layout.simple_spinner_item, isVis_itm11);
+			}
+			else{
+				bb = new ArrayAdapter(this,android.R.layout.simple_spinner_item, isVis_itm);
+			}
+		}
+		
+
+//		else if (isvis.equalsIgnoreCase("No") && languages.equalsIgnoreCase("Polish")){
+//			 bb = new ArrayAdapter(this,android.R.layout.simple_spinner_item, isVis_itm1);
+//		}
+
 		aa.setDropDownViewResource(
 		android.R.layout.simple_spinner_dropdown_item);
 		spin.setAdapter(aa); 
