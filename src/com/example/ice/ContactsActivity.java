@@ -3,6 +3,8 @@ package com.example.ice;
 import static com.example.dataBase.Const.NAZWA;
 import static com.example.dataBase.Const.NAZWA_TABELI;
 
+import java.io.File;
+
 
 import com.example.dataBase.DataEvent;
 import com.example.dataBase.EventProvider;
@@ -23,6 +25,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -110,9 +114,25 @@ public class ContactsActivity extends ListActivity implements OnClickListener, O
     	case R.id.addContact:
     		Intent i = new Intent(this, CheckTypeContact.class);
     		startActivity(i);
+    		createDirIfNotExists("/IceContactsImgs/");
     		break;
 		}
 	}
+	
+	
+	public static boolean createDirIfNotExists(String path) {
+	    boolean ret = true;
+
+	    File file = new File(Environment.getExternalStorageDirectory(), path);
+	    if (!file.exists()) {
+	        if (!file.mkdirs()) {
+	            Log.e("TravellerLog :: ", "Problem creating Image folder");
+	            ret = false;
+	        }
+	    }
+	    return ret;
+	}
+	
 	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {

@@ -43,12 +43,14 @@
         <activity android:name=".sos.AlertActivity"></activity>
         <activity android:name=".CheckTypeContact"></activity>
         <activity android:name=".AddContactManualActivity"></activity>
+        <activity android:name=".AddContactFromContactsActivity"></activity>
         <activity android:name=".info.InfoPutDataActivity"></activity>
         <activity android:name=".FileChooser"></activity>
         <activity android:name=".ViewOnLockScreen"
-            android:theme="@android:style/Theme.Wallpaper.NoTitleBar">
-        </activity>
-            <service android:name=".LockScreenService"></service>
+            android:theme="@android:style/Theme.Wallpaper"
+            android:screenOrientation="portrait"> </activity>
+        
+        <service android:name=".LockScreenService"></service>
 
     </application>
 
