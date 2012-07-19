@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.Menu;
@@ -41,23 +42,30 @@ public class MainActivity extends Activity implements OnClickListener{
 	private String name;
 	private String id;
 	private Toast mToast;
+//	KeyguardManager kgm;
+//	KeyguardLock kgl;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         Cursor kursor = wezZdarzenia();
         pokazZdarzenia(kursor);
         
-
+    	KeyguardManager myKM = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
+        
         if(isvis.equalsIgnoreCase("No")){
         	stopService(new Intent(this, LockScreenService.class));  
+
         }
         
         else {
-            startService(new Intent(this, LockScreenService.class));        
+            startService(new Intent(this, LockScreenService.class));
+//      	     kgm = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+//       	     kgl = kgm.newKeyguardLock(this.getClass().getSimpleName());
+//            	kgl.disableKeyguard();
+//    	    kgl.disableKeyguard();
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-//    		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+    		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         }
         
 
@@ -68,16 +76,31 @@ public class MainActivity extends Activity implements OnClickListener{
         else {
             setContentView(R.layout.activity_main_ang);
         }
-
-        contactBtn =(ImageButton)findViewById(R.id.contactsBtn);
+        
+    	if( myKM.inKeyguardRestrictedInputMode()) {
+    		
+            contactBtn =(ImageButton)findViewById(R.id.contactsBtn);
+            infoBtn =(ImageButton)findViewById(R.id.infoBtn);
+            alertBtn =(ImageButton)findViewById(R.id.alertBtn);
+            contactBtn.setOnClickListener(this);
+            infoBtn.setOnClickListener(this);
+            alertBtn.setOnClickListener(this);
+    		
+    	}
+    	else {       
+    		contactBtn =(ImageButton)findViewById(R.id.contactsBtn);
         infoBtn =(ImageButton)findViewById(R.id.infoBtn);
         alertBtn =(ImageButton)findViewById(R.id.alertBtn);
-        settingBtn =(ImageButton)findViewById(R.id.settingBtn);
-        
         contactBtn.setOnClickListener(this);
         infoBtn.setOnClickListener(this);
         alertBtn.setOnClickListener(this);
-        settingBtn.setOnClickListener(this);
+
+        
+        settingBtn =(ImageButton)findViewById(R.id.settingBtn);
+        settingBtn.setOnClickListener(this);}
+
+
+
     }
 
 	public void onClick(View v) {
@@ -115,11 +138,6 @@ public class MainActivity extends Activity implements OnClickListener{
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		
-//        Cursor kursor = wezZdarzenia();
-//        pokazZdarzenia(kursor);
-		
-
 	}
 
 	private static String[] FROM = { _ID, SOSNR, LANGUAGE, ISVIS  };

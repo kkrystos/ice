@@ -1,8 +1,12 @@
 package com.example.ice;
 
 
+import android.app.Activity;
+import android.app.KeyguardManager;
 import android.app.Service;
+import android.app.KeyguardManager.KeyguardLock;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
@@ -30,17 +34,22 @@ public class LockScreenService extends Service {
 		    registerReceiver(lockScreenListener, filter1);
 		    registerReceiver(lockScreenListener, filter2);
 		    
-		    myToast = Toast.makeText(getApplicationContext(), 
-		                             "Jestem w Servisie", 
-		                             Toast.LENGTH_SHORT);
-		    myToast.show();
+//		    myToast = Toast.makeText(getApplicationContext(), 
+//		                             "Jestem w Servisie", 
+//		                             Toast.LENGTH_SHORT);
+//		    myToast.show();
 		}
 		
 		@Override
 		public void onDestroy() {
+			
+			
+//			KeyguardManager kgm = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+//			KeyguardLock kgl = kgm.newKeyguardLock(KEYGUARD_SERVICE);
+//		    kgl.reenableKeyguard();
 		    
-		    myToast.setText("Koniec Servisu");
-		    myToast.show();
+//		    myToast.setText("Koniec Servisu");
+//		    myToast.show();
 		    unregisterReceiver(this.lockScreenListener);
 
 		    super.onDestroy();

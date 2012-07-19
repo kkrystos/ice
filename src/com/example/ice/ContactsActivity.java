@@ -17,8 +17,10 @@ import static com.example.sett.db.Stale.LANGUAGE;
 import static com.example.sett.db.Stale.SOSNR;
 import static android.provider.BaseColumns._ID;
 import android.app.AlertDialog;
+import android.app.KeyguardManager;
 import android.app.ListActivity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -67,7 +69,7 @@ public class ContactsActivity extends ListActivity implements OnClickListener, O
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
-        
+    	KeyguardManager myKM = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
         Cursor kursor = wezZdarzenia();
         pokazZdarzenia(kursor);
         
@@ -91,10 +93,21 @@ public class ContactsActivity extends ListActivity implements OnClickListener, O
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         
         ImageView iv = (ImageView) findViewById(R.id.img_contact);
-		addContact = (ImageButton)findViewById(R.id.addContact);
-		addContact.setOnClickListener(this);
-        this.getListView().setLongClickable(true);
-        this.getListView().setOnItemLongClickListener(this);
+        
+    	if( myKM.inKeyguardRestrictedInputMode()) {
+    		
+            this.getListView().setLongClickable(true);
+            this.getListView().setOnItemLongClickListener(this);
+    	}
+    	else {
+    		
+    		addContact = (ImageButton)findViewById(R.id.addContact);
+    		addContact.setOnClickListener(this);
+            this.getListView().setLongClickable(true);
+            this.getListView().setOnItemLongClickListener(this);
+    	}
+    	
+
 	}
 	
 	@Override

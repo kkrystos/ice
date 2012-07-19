@@ -23,7 +23,7 @@ public class LockScreenListener extends BroadcastReceiver
 			    		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			        	context.startActivity(i);
 		        	}
-
+//
 		        } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
 //		            if(!wasScreenOn){
 //		        	Intent i = new Intent(context, ViewOnLockScreen.class);

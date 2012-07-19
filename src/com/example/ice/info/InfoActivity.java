@@ -13,6 +13,8 @@ import com.example.ice.MainActivity;
 import com.example.ice.R;
 
 import android.app.Activity;
+import android.app.KeyguardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -81,12 +83,21 @@ public class InfoActivity extends Activity implements OnClickListener{
 		
         Cursor kursor = wezZdarzenia();
         pokazZdarzenia(kursor);
-		
-		Button enterBtn = (Button)findViewById(R.id.enterDateBtn);
-		enterBtn.setOnClickListener(this);
-		
-		Button okBtn = (Button)findViewById(R.id.infoOkBtn);
-		okBtn.setOnClickListener(this);
+        
+    	KeyguardManager myKM = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
+    	
+    	if( myKM.inKeyguardRestrictedInputMode()) {
+    		Button okBtn = (Button)findViewById(R.id.infoOkBtn);
+    		okBtn.setOnClickListener(this);
+    	}
+    	else {
+    		Button enterBtn = (Button)findViewById(R.id.enterDateBtn);
+    		enterBtn.setOnClickListener(this);
+    		
+    		Button okBtn = (Button)findViewById(R.id.infoOkBtn);
+    		okBtn.setOnClickListener(this);
+    	}
+
 		
 		TextView nameT = (TextView)findViewById(R.id.i_main_nameT);
 		TextView dateT = (TextView)findViewById(R.id.i_main_dateT);
@@ -117,7 +128,7 @@ public class InfoActivity extends Activity implements OnClickListener{
 		insuranceT.setText(insurance);
 		insurance_idT.setText(insurance_id);
 		
-		if(name.equalsIgnoreCase("")){
+		if(!myKM.inKeyguardRestrictedInputMode() && name.equalsIgnoreCase("")){
 
 	        if(languages.equalsIgnoreCase("Polish")){
 				mToast = Toast.makeText(this, "Puste pola! Wprowadz dane", Toast.LENGTH_LONG);
@@ -129,7 +140,18 @@ public class InfoActivity extends Activity implements OnClickListener{
 				mToast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL, 0, 0);
 				mToast.show();
 	        }
-
+		}
+		else if(myKM.inKeyguardRestrictedInputMode()){
+//	        if(languages.equalsIgnoreCase("Polish")){
+//				mToast = Toast.makeText(this, "Puste pola! Wprowadz dane", Toast.LENGTH_LONG);
+//				mToast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL, 0, 0);
+//				mToast.show();
+//	        }
+//	        else {
+//				mToast = Toast.makeText(this, "Empty fields! Please Enter data", Toast.LENGTH_LONG);
+//				mToast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL, 0, 0);
+//				mToast.show();
+//	        }
 		}
 	}
 
